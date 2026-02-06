@@ -78,6 +78,7 @@
       font-size: 20px;
       animation: floatUp 6s linear infinite;
       opacity: 0.8;
+      pointer-events: none;
     }
 
     @keyframes floatUp {
@@ -91,12 +92,12 @@
 
 <body>
 
-  <div class="card">
+  <div class="card" id="card">
     <h1>Ravindra Gugulothu 💕</h1>
     <h2>Will you be my Valentine?</h2>
 
     <div class="buttons">
-      <button id="yes" onclick="sayYes()">Yes 💖</button>
+      <button id="yes">Yes 💖</button>
 
       <div class="no-container">
         <button id="no">No 🙈</button>
@@ -105,57 +106,51 @@
   </div>
 
   <script>
-    const noBtn = document.getElementById("no");
+    document.addEventListener("DOMContentLoaded", () => {
+      const noBtn = document.getElementById("no");
+      const yesBtn = document.getElementById("yes");
+      const card = document.getElementById("card");
 
-    function moveNo() {
-      const maxX = 60;
-      const maxY = 20;
+      function moveNo() {
+        const x = Math.random() * 60 - 30;
+        const y = Math.random() * 20 - 10;
+        noBtn.style.transform = `translate(${x}px, ${y}px)`;
+      }
 
-      const x = Math.random() * maxX - maxX / 2;
-      const y = Math.random() * maxY - maxY / 2;
+      noBtn.addEventListener("mouseover", moveNo);
+      noBtn.addEventListener("touchstart", moveNo);
 
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
-    }
+      yesBtn.addEventListener("click", () => {
+        card.innerHTML = `
+          <h1>Ravindra Gugulothu 💕</h1>
+          <h2>
+            Thanks Ravindra for accepting me as your Valentine and Wife also ❤️<br><br>
+            I LOVE YOU 💖
+          </h2>
+          <p style="color:#ff4d6d;font-size:18px;">
+            Opening WhatsApp…
+          </p>
+        `;
 
-    noBtn.addEventListener("mouseover", moveNo);
-    noBtn.addEventListener("touchstart", moveNo);
+        setTimeout(() => {
+          const phoneNumber = "919502277435";
+          const message = encodeURIComponent("I LOVE YOU TOO SWETHA ❤️");
+          window.location.href = `https://wa.me/${phoneNumber}?text=${message}`;
+        }, 6000);
+      });
 
-    function sayYes() {
-      const card = document.querySelector(".card");
-      card.innerHTML = `
-        <h1>Ravindra Gugulothu 💕</h1>
-        <h2>
-          Thanks Ravindra for accepting me as your Valentine and Wife also ❤️<br><br>
-          I LOVE YOU 💖
-        </h2>
-        <p style="color:#ff4d6d;font-size:18px;">
-          Opening WhatsApp…
-        </p>
-      `;
+      function createHeart() {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerText = "💕";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = 4 + Math.random() * 3 + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 7000);
+      }
 
-      setTimeout(() => {
-        const phoneNumber = "919502277435";
-        const message = encodeURIComponent(
-          "I LOVE YOU TOO SWETHA ❤️"
-        );
-        window.location.href = `https://wa.me/${phoneNumber}?text=${message}`;
-      }, 6000);
-    }
-
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.innerText = "💕";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = 4 + Math.random() * 3 + "s";
-      document.body.appendChild(heart);
-
-      setTimeout(() => {
-        heart.remove();
-      }, 7000);
-    }
-
-    setInterval(createHeart, 500);
+      setInterval(createHeart, 500);
+    });
   </script>
 
 </body>
